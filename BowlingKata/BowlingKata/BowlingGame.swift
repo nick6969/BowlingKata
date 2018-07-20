@@ -14,17 +14,23 @@ class BowlingGame {
 
     func hitNumber(of pin: Int) throws {
         if pin > 10 || pin < 0 {
-            throw CalculatedError.outsideTheRules
+            throw CalculatedError.outsideOfSingleHitPin
         }
         self.hitPins.append(pin)
     }
 
-    func calculatedScore() -> Int {
-        return hitPins.reduce(0, +)
+    func calculatedScore() throws -> Int {
+        let score: Int = hitPins.reduce(0, +)
+        if score > 10 {
+            throw CalculatedError.outsideOfTwiceHitPin
+        } else {
+            return score
+        }
     }
 
 }
 
 enum CalculatedError: Error {
-    case outsideTheRules
+    case outsideOfSingleHitPin
+    case outsideOfTwiceHitPin
 }
