@@ -77,7 +77,7 @@ class BowlingGame {
     func calculatedScore() -> Int {
         var isSpare: Bool = false
         var score: Int = 0
-        for i in 0 ..< rounds {
+        for i in 0 ... rounds {
             let round = hitRoundsArray[i]
             if isSpare {
                 score += round.first
