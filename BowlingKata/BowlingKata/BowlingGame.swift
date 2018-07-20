@@ -10,7 +10,10 @@ import Foundation
 
 class BowlingGame {
 
-    func calculatedScore(hit: Int) -> Int {
+    func calculatedScore(hit: Int) throws -> Int {
+        if hit > 10 {
+            throw CalculatedError.outsideTheRules
+        }
         return hit
     }
 
