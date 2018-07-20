@@ -15,3 +15,7 @@ class BowlingGame {
     }
 
 }
+
+enum CalculatedError: Error {
+    case outsideTheRules
+}
