@@ -73,6 +73,10 @@ class BowlingKataTests: XCTestCase {
             let _ = try game.calculatedScore(hit: 0)
             let score00 = try game.calculatedScore(hit: 0)
             XCTAssert(score00 == 0, "擊中 0 顆球瓶得分應該為 0")
+            // 先集中 1 顆 再擊中 0 顆的狀態
+            let _ = try game.calculatedScore(hit: 1)
+            let score01 = try game.calculatedScore(hit: 0)
+            XCTAssert(score01 == 1, "擊中 1 顆球瓶得分應該為 1")
         } catch {
             XCTAssert(false, "不應該出現")
         }
