@@ -27,6 +27,10 @@ class BowlingKataTests: XCTestCase {
         XCTAssert(game.calculatedScore() == 0, "擊中 0 顆球瓶得分應該為 0")
     }
 
+    func testHitOnePin() {
+        XCTAssert(game.calculatedScore() == 1, "擊中 1 顆球瓶得分應該為 1")
+    }
+
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
