@@ -121,15 +121,17 @@ class BowlingKataTests: XCTestCase {
         }
     }
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testHasSpare00() {
+        // 根據規則 前兩顆擊中球瓶數量 加起來為 10 則該次計分格的分數需要擊倒十瓶的10分再加上後面一次丟球所打倒的球瓶分數
+        // 擊中 3 - 7 - 5 分數應該是 20
+        do {
+            try game.hitNumber(of: 3)
+            try game.hitNumber(of: 7)
+            try game.hitNumber(of: 5)
+            let score: Int = try game.calculatedScore()
+            XCTAssert(score == 20, "這裡分數應該是 20, 可是現在是 \(score)")
+        } catch {
+            XCTAssert(false, "不應該出現")
         }
     }
     
