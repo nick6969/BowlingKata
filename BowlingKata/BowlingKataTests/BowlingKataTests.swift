@@ -82,9 +82,20 @@ class BowlingKataTests: XCTestCase {
 
     func testHitTwice01() {
         do {
-            // 先集中 1 顆 再擊中 0 顆的狀態
+            // 先擊中 1 顆 再擊中 0 顆的狀態
             try game.hitNumber(of: 1)
             try game.hitNumber(of: 0)
+            XCTAssert(game.calculatedScore() == 1, "擊中 1 顆球瓶得分應該為 1")
+        } catch {
+            XCTAssert(false, "不應該出現")
+        }
+    }
+
+    func testHintTwice02() {
+        do {
+            // 先擊中 0 顆 再擊中 1 顆的狀態
+            try game.hitNumber(of: 0)
+            try game.hitNumber(of: 1)
             XCTAssert(game.calculatedScore() == 1, "擊中 1 顆球瓶得分應該為 1")
         } catch {
             XCTAssert(false, "不應該出現")
