@@ -24,11 +24,11 @@ class BowlingKataTests: XCTestCase {
     }
     
     func testHitZeroPin() {
-        XCTAssert(game.calculatedScore() == 0, "擊中 0 顆球瓶得分應該為 0")
+        XCTAssert(game.calculatedScore(hit: 0) == 0, "擊中 0 顆球瓶得分應該為 0")
     }
 
     func testHitOnePin() {
-        XCTAssert(game.calculatedScore() == 1, "擊中 1 顆球瓶得分應該為 1")
+        XCTAssert(game.calculatedScore(hit: 1) == 1, "擊中 1 顆球瓶得分應該為 1")
     }
 
     func testExample() {
