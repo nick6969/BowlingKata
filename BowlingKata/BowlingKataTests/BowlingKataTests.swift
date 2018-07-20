@@ -54,6 +54,19 @@ class BowlingKataTests: XCTestCase {
         }
     }
 
+    func testHitNegativeNumberPin() {
+        do {
+            let _ = try game.calculatedScore(hit: -1)
+            XCTAssert(false, "不應該出現可以擊中 -1 顆球瓶的狀態")
+        } catch {
+            if let error = error as? CalculatedError {
+                XCTAssert(error == .outsideTheRules, "這裡應該是超出規則之外的錯誤")
+            } else {
+                XCTAssert(false, "不應該出現不是 CalculatedError 的 Error 型別")
+            }
+        }
+    }
+
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
