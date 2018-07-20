@@ -49,7 +49,7 @@ class BowlingKataTests: XCTestCase {
             XCTAssert(false, "不應該出現可以擊中 11 顆球瓶的狀態")
         } catch {
             if let error = error as? CalculatedError {
-                XCTAssert(error == CalculatedError.outsideOfSingleHitPin, "這裡應該是單次擊球超出規則之外數量的錯誤")
+                XCTAssert(error == CalculatedError.outsideOfRulesWithSingleHitPin, "這裡應該是單次擊球超出規則之外數量的錯誤")
             } else {
                 XCTAssert(false, "不應該出現不是 CalculatedError 的 Error 型別")
             }
@@ -62,7 +62,7 @@ class BowlingKataTests: XCTestCase {
             XCTAssert(false, "不應該出現可以擊中 -1 顆球瓶的狀態")
         } catch {
             if let error = error as? CalculatedError {
-                XCTAssert(error == CalculatedError.outsideOfSingleHitPin, "這裡應該是單次擊球超出規則之外數量的錯誤")
+                XCTAssert(error == CalculatedError.outsideOfRulesWithSingleHitPin, "這裡應該是單次擊球超出規則之外數量的錯誤")
             } else {
                 XCTAssert(false, "不應該出現不是 CalculatedError 的 Error 型別")
             }
@@ -114,7 +114,7 @@ class BowlingKataTests: XCTestCase {
             XCTAssert(false, "不應該有兩球相加超過 10的狀況")
         } catch {
             if let error = error as? CalculatedError {
-                XCTAssert(error == CalculatedError.outsideOfTwiceHitPin, "這裡應該是兩次擊球超出規則之外數量的錯誤")
+                XCTAssert(error == CalculatedError.outsideOfRulesWithTwiceHitPin, "這裡應該是兩次擊球超出規則之外數量的錯誤")
             } else {
                 XCTAssert(false, "不應該出現不是 CalculatedError 的 Error 型別")
             }
