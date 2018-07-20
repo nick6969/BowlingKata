@@ -11,9 +11,11 @@ import XCTest
 
 class BowlingKataTests: XCTestCase {
     
+    var game: BowlingGame!
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        game = BowlingGame()
     }
     
     override func tearDown() {
@@ -21,6 +23,10 @@ class BowlingKataTests: XCTestCase {
         super.tearDown()
     }
     
+    func testHitZeroPin() {
+        XCTAssert(game.calculatedScore() == 0, "擊中 0 顆球瓶得分應該為 0")
+    }
+
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
