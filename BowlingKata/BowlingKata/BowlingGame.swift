@@ -10,8 +10,8 @@ import Foundation
 
 class BowlingGame {
 
-    func calculatedScore() -> Int {
-        return 0
+    func calculatedScore(hit: Int) -> Int {
+        return hit
     }
 
 }
