@@ -25,7 +25,8 @@ class BowlingKataTests: XCTestCase {
     
     func testHitZeroPin() {
         do {
-            let score = try game.calculatedScore(hit: 0)
+            try game.hitNumber(of: 0)
+            let score = game.calculatedScore()
             XCTAssert(score == 0, "擊中 0 顆球瓶得分應該為 0")
         } catch {
             XCTAssert(false, "不應該出現")
@@ -34,7 +35,8 @@ class BowlingKataTests: XCTestCase {
 
     func testHitOnePin() {
         do {
-            let score = try game.calculatedScore(hit: 1)
+            try game.hitNumber(of: 1)
+            let score = game.calculatedScore()
             XCTAssert(score == 1, "擊中 1 顆球瓶得分應該為 1")
         } catch {
             XCTAssert(false, "不應該出現")
@@ -43,7 +45,7 @@ class BowlingKataTests: XCTestCase {
 
     func testHitElevenPin() {
         do {
-            let _ = try game.calculatedScore(hit: 11)
+            try game.hitNumber(of: 11)
             XCTAssert(false, "不應該出現可以擊中 11 顆球瓶的狀態")
         } catch {
             if let error = error as? CalculatedError {
@@ -56,7 +58,7 @@ class BowlingKataTests: XCTestCase {
 
     func testHitNegativeNumberPin() {
         do {
-            let _ = try game.calculatedScore(hit: -1)
+            try game.hitNumber(of: -1)
             XCTAssert(false, "不應該出現可以擊中 -1 顆球瓶的狀態")
         } catch {
             if let error = error as? CalculatedError {
@@ -67,16 +69,23 @@ class BowlingKataTests: XCTestCase {
         }
     }
 
-    func testHitTwice() {
+    func testHitTwice00() {
         do {
             // 兩次都擊中 0 顆的狀態
-            let _ = try game.calculatedScore(hit: 0)
-            let score00 = try game.calculatedScore(hit: 0)
-            XCTAssert(score00 == 0, "擊中 0 顆球瓶得分應該為 0")
+            try game.hitNumber(of: 0)
+            try game.hitNumber(of: 0)
+            XCTAssert(game.calculatedScore() == 0, "擊中 0 顆球瓶得分應該為 0")
+        } catch {
+            XCTAssert(false, "不應該出現")
+        }
+    }
+
+    func testHitTwice01() {
+        do {
             // 先集中 1 顆 再擊中 0 顆的狀態
-            let _ = try game.calculatedScore(hit: 1)
-            let score01 = try game.calculatedScore(hit: 0)
-            XCTAssert(score01 == 1, "擊中 1 顆球瓶得分應該為 1")
+            try game.hitNumber(of: 1)
+            try game.hitNumber(of: 0)
+            XCTAssert(game.calculatedScore() == 1, "擊中 1 顆球瓶得分應該為 1")
         } catch {
             XCTAssert(false, "不應該出現")
         }
