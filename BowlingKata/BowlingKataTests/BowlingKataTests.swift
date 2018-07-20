@@ -67,6 +67,17 @@ class BowlingKataTests: XCTestCase {
         }
     }
 
+    func testHitTwice() {
+        do {
+            // 兩次都擊中 0 顆的狀態
+            let _ = try game.calculatedScore(hit: 0)
+            let score00 = try game.calculatedScore(hit: 0)
+            XCTAssert(score00 == 0, "擊中 0 顆球瓶得分應該為 0")
+        } catch {
+            XCTAssert(false, "不應該出現")
+        }
+    }
+
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
