@@ -134,5 +134,17 @@ class BowlingKataTests: XCTestCase {
             XCTAssert(false, "不應該出現")
         }
     }
-    
+
+    func testHasSpare01() {
+        do {
+            try game.hitNumber(of: 1)
+            try game.hitNumber(of: 3)
+            try game.hitNumber(of: 8)
+            let score: Int = game.calculatedScore()
+            XCTAssert(score == 12, "這裡分數應該是 12, 可是現在是 \(score)")
+        } catch {
+            XCTAssert(false, "不應該出現")
+        }
+    }
+
 }
