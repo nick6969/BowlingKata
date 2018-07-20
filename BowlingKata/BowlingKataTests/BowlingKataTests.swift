@@ -24,15 +24,34 @@ class BowlingKataTests: XCTestCase {
     }
     
     func testHitZeroPin() {
-        XCTAssert(game.calculatedScore(hit: 0) == 0, "擊中 0 顆球瓶得分應該為 0")
+        do {
+            let score = try game.calculatedScore(hit: 0)
+            XCTAssert(score == 0, "擊中 0 顆球瓶得分應該為 0")
+        } catch {
+            XCTAssert(false, "不應該出現")
+        }
     }
 
     func testHitOnePin() {
-        XCTAssert(game.calculatedScore(hit: 1) == 1, "擊中 1 顆球瓶得分應該為 1")
+        do {
+            let score = try game.calculatedScore(hit: 1)
+            XCTAssert(score == 1, "擊中 1 顆球瓶得分應該為 1")
+        } catch {
+            XCTAssert(false, "不應該出現")
+        }
     }
 
     func testHitElevenPin() {
-        XCTAssert(game.calculatedScore(hit: 11) == 10, "擊中 11 顆球瓶 應該是錯誤")
+        do {
+            let _ = try game.calculatedScore(hit: 11)
+            XCTAssert(false, "不應該出現可以擊中 11 顆球瓶的狀態")
+        } catch {
+            if let error = error as? CalculatedError {
+                XCTAssert(error == .outsideTheRules, "這裡應該是超出規則之外的錯誤")
+            } else {
+                XCTAssert(false, "不應該出現不是 CalculatedError 的 Error 型別")
+            }
+        }
     }
 
     func testExample() {
