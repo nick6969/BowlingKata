@@ -10,11 +10,17 @@ import Foundation
 
 class BowlingGame {
 
-    func calculatedScore(hit: Int) throws -> Int {
-        if hit > 10 || hit < 0 {
+    private var hitPins: [Int] = []
+
+    func hitNumber(of pin: Int) throws {
+        if pin > 10 || pin < 0 {
             throw CalculatedError.outsideTheRules
         }
-        return hit
+        self.hitPins.append(pin)
+    }
+
+    func calculatedScore() -> Int {
+        return hitPins.reduce(0, +)
     }
 
 }
