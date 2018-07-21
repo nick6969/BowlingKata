@@ -214,20 +214,37 @@ class BowlingKataTests: XCTestCase {
     func testAllStrike() {
         // 根據規則 連續擊出 strike 12次 滿分 300 分
         do {
-            try game.hitNumber(of: 10)
-            try game.hitNumber(of: 10)
-            try game.hitNumber(of: 10)
-            try game.hitNumber(of: 10)
-            try game.hitNumber(of: 10)
-            try game.hitNumber(of: 10)
-            try game.hitNumber(of: 10)
-            try game.hitNumber(of: 10)
-            try game.hitNumber(of: 10)
-            try game.hitNumber(of: 10)
-            try game.hitNumber(of: 10)
-            try game.hitNumber(of: 10)
+            for _ in 0 ..< 12 {
+                try game.hitNumber(of: 10)
+            }
             let score: Int = game.calculatedScore()
             XCTAssert(score == 300, "這裡分數應該是 300, 可是現在是 \(score)")
+        } catch {
+            XCTAssert(false, "不應該出現, error: \(error)")
+        }
+    }
+
+    func testScoreZero() {
+        // 根據規則 連續擊出 0 球 只會有 20 次
+        do {
+            for _ in 0 ..< 20 {
+                try game.hitNumber(of: 0)
+            }
+            let score: Int = game.calculatedScore()
+            XCTAssert(score == 0, "這裡分數應該是 0, 可是現在是 \(score)")
+        } catch {
+            XCTAssert(false, "不應該出現, error: \(error)")
+        }
+    }
+
+    func testScore290() {
+        do {
+            for _ in 0 ..< 11 {
+                try game.hitNumber(of: 10)
+            }
+            try game.hitNumber(of: 0)
+            let score: Int = game.calculatedScore()
+            XCTAssert(score == 290, "這裡分數應該是 290, 可是現在是 \(score)")
         } catch {
             XCTAssert(false, "不應該出現, error: \(error)")
         }
