@@ -8,6 +8,12 @@
 
 import Foundation
 
+public extension Array {
+    fileprivate subscript(safe index: Int) -> Element? {
+        return (0 <= index && index < count) ? self[index] : nil
+    }
+}
+
 /// 計算分數時使用的 Error Type
 ///
 /// - outsideOfRulesWithSingleHitPin: 單次擊球數量超過規則的範圍
@@ -90,23 +96,22 @@ class BowlingGame {
     }
 
     func calculatedScore() -> Int {
-        var isSpare: Bool = false
-        var isStrike: Bool = false
+
         var score: Int = 0
+
         for i in 0 ... rounds {
             let round = hitRoundsArray[i]
-            if isStrike {
-                score += round.score
-                if round.isStrike && i < rounds {
-                    score += hitRoundsArray[i+1].first
-                }
-            }
-            if isSpare {
-                score += round.first
-            }
             score += round.score
-            isSpare = round.isSpare
-            isStrike = round.isStrike
+
+            if round.isStrike, let nextRound = hitRoundsArray[safe: i+1] {
+                score += nextRound.score
+                if nextRound.isStrike, let nextTwoRound = hitRoundsArray[safe: i+2] {
+                    score += nextTwoRound.first
+                }
+            } else if round.isSpare, let nextRound = hitRoundsArray[safe: i+1] {
+                score += nextRound.first
+            }
+
         }
         return score
     }
