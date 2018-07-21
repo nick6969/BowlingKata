@@ -24,16 +24,25 @@ enum CalculatedError: Error {
 }
 
 private struct HitRounds {
+
     private var first: Int = -1 {
         didSet {
             assert(first >= 0 && first <= 10)
         }
     }
+
     private var secound: Int = -1 {
         didSet {
             assert(secound >= 0 && secound <= 10)
         }
     }
+
+    private var third: Int = -1 {
+        didSet {
+            assert(third >= 0 && third <= 10)
+        }
+    }
+
     var firstHitPin: Int {
         return first != -1 ? first : 0
     }
@@ -49,13 +58,31 @@ private struct HitRounds {
         return false
     }
 
-    var score: Int {
+    var bonusScore: Int {
         if first != -1 && secound != -1 {
             return first + secound
         } else if first != -1 && secound == -1 {
             return first
         }
         return 0
+    }
+
+    var score: Int {
+        if first != -1 && secound != -1 {
+            if isLast && third != -1 {
+                return first + secound + third
+            } else {
+                return first + secound
+            }
+        } else if first != -1 && secound == -1 {
+            return first
+        }
+        return 0
+    }
+
+    private let isLast: Bool
+    init(last: Bool = false) {
+        self.isLast = last
     }
 
     /// 填入擊中球瓶
@@ -66,15 +93,20 @@ private struct HitRounds {
     mutating func hitNumber(of pin: Int) throws -> Bool {
         if first == -1 {
             self.first = pin
-            if pin == 10 {
+            if pin == 10 && !isLast {
                 return true
             }
-        } else {
+        } else if secound == -1 {
             self.secound = pin
-            if self.first + self.secound > 10 {
+            if self.first + self.secound > 10 && !isLast {
                 throw CalculatedError.outsideOfRulesWithSingleRounds
             }
+            if isLast {
+                return false
+            }
             return true
+        } else if third == -1 {
+            third = pin
         }
         return false
     }
@@ -86,7 +118,11 @@ class BowlingGame {
     // A game of ten-pin bowling is divided into ten rounds
     private var rounds: Int = 0
 
-    private lazy var hitRoundsArray: [HitRounds] = Array(repeating: HitRounds(), count: 10)
+    private lazy var hitRoundsArray: [HitRounds] = {
+        var hitRoundsArray: [HitRounds] = Array(repeating: HitRounds(), count: 9)
+        hitRoundsArray.append(HitRounds(last: true))
+        return hitRoundsArray
+    }()
 
     func hitNumber(of pin: Int) throws {
         if pin > 10 || pin < 0 {
@@ -107,7 +143,7 @@ class BowlingGame {
             score += round.score
 
             if round.isStrike, let nextRound = hitRoundsArray[safe: i+1] {
-                score += nextRound.score
+                score += nextRound.bonusScore
                 if nextRound.isStrike, let nextTwoRound = hitRoundsArray[safe: i+2] {
                     score += nextTwoRound.firstHitPin
                 }
