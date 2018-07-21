@@ -24,15 +24,18 @@ enum CalculatedError: Error {
 }
 
 private struct HitRounds {
-    private(set) var first: Int = -1 {
+    private var first: Int = -1 {
         didSet {
             assert(first >= 0 && first <= 10)
         }
     }
-    private(set) var secound: Int = -1 {
+    private var secound: Int = -1 {
         didSet {
             assert(secound >= 0 && secound <= 10)
         }
+    }
+    var firstHitPin: Int {
+        return first != -1 ? first : 0
     }
 
     var isStrike: Bool {
@@ -106,10 +109,10 @@ class BowlingGame {
             if round.isStrike, let nextRound = hitRoundsArray[safe: i+1] {
                 score += nextRound.score
                 if nextRound.isStrike, let nextTwoRound = hitRoundsArray[safe: i+2] {
-                    score += nextTwoRound.first
+                    score += nextTwoRound.firstHitPin
                 }
             } else if round.isSpare, let nextRound = hitRoundsArray[safe: i+1] {
-                score += nextRound.first
+                score += nextRound.firstHitPin
             }
 
         }
