@@ -186,4 +186,16 @@ class BowlingKataTests: XCTestCase {
         }
     }
 
+    func testDoubleStrike() {
+        do {
+            try game.hitNumber(of: 10)
+            try game.hitNumber(of: 10)
+            try game.hitNumber(of: 4)
+            try game.hitNumber(of: 3)
+            let score: Int = game.calculatedScore()
+            XCTAssert(score == 48, "這裡分數應該是 48, 可是現在是 \(score)")
+        } catch {
+            XCTAssert(false, "不應該出現, error: \(error)")
+        }
+    }
 }
