@@ -18,8 +18,20 @@ enum CalculatedError: Error {
 }
 
 private struct HitRounds {
-    private(set) var first: Int = -1
-    private(set) var secound: Int = -1
+    private(set) var first: Int = -1 {
+        didSet {
+            assert(first >= 0 && first <= 10)
+        }
+    }
+    private(set) var secound: Int = -1 {
+        didSet {
+            assert(secound >= 0 && secound <= 10)
+        }
+    }
+
+    var isStrike: Bool {
+        return first == 10
+    }
 
     var isSpare: Bool {
         if first != -1 && secound != -1 {
@@ -45,6 +57,9 @@ private struct HitRounds {
     mutating func hitNumber(of pin: Int) throws -> Bool {
         if first == -1 {
             self.first = pin
+            if pin == 10 {
+                return true
+            }
         } else {
             self.secound = pin
             if self.first + self.secound > 10 {
@@ -76,14 +91,19 @@ class BowlingGame {
 
     func calculatedScore() -> Int {
         var isSpare: Bool = false
+        var isStrike: Bool = false
         var score: Int = 0
         for i in 0 ... rounds {
             let round = hitRoundsArray[i]
+            if isStrike {
+                score += round.score
+            }
             if isSpare {
                 score += round.first
             }
             score += round.score
             isSpare = round.isSpare
+            isStrike = round.isStrike
         }
         return score
     }
