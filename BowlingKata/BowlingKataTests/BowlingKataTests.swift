@@ -210,4 +210,26 @@ class BowlingKataTests: XCTestCase {
             XCTAssert(false, "不應該出現, error: \(error)")
         }
     }
+
+    func testAllStrike() {
+        // 根據規則 連續擊出 strike 12次 滿分 300 分
+        do {
+            try game.hitNumber(of: 10)
+            try game.hitNumber(of: 10)
+            try game.hitNumber(of: 10)
+            try game.hitNumber(of: 10)
+            try game.hitNumber(of: 10)
+            try game.hitNumber(of: 10)
+            try game.hitNumber(of: 10)
+            try game.hitNumber(of: 10)
+            try game.hitNumber(of: 10)
+            try game.hitNumber(of: 10)
+            try game.hitNumber(of: 10)
+            try game.hitNumber(of: 10)
+            let score: Int = game.calculatedScore()
+            XCTAssert(score == 300, "這裡分數應該是 300, 可是現在是 \(score)")
+        } catch {
+            XCTAssert(false, "不應該出現, error: \(error)")
+        }
+    }
 }
