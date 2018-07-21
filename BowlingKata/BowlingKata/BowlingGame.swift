@@ -97,6 +97,9 @@ class BowlingGame {
             let round = hitRoundsArray[i]
             if isStrike {
                 score += round.score
+                if round.isStrike && i < rounds {
+                    score += hitRoundsArray[i+1].first
+                }
             }
             if isSpare {
                 score += round.first
